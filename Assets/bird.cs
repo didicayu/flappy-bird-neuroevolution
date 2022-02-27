@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using TMPro;
 
 public class bird : MonoBehaviour
 {
@@ -20,8 +21,11 @@ public class bird : MonoBehaviour
     public Transform[] pipes;
     public Transform Ceiling;
 
-    ///[HideInInspector] //Commented out for debugging purposes
+    [HideInInspector] //Commented out for debugging purposes
     public float score = 0, fitness = 0;
+    float gameScore = 0;
+
+    public TMP_Text gameScoreText;
 
     public bool SaveThisBrain = false;
     public string SaveName = "NeuralNetSave";
@@ -87,6 +91,9 @@ public class bird : MonoBehaviour
             
 
             if(PreviousPipe != Closest && PreviousPipe != null){
+
+                CalculateGameScore(Closest);
+
                 SelectedPipeScript.amIClosestPipe = true;
                 PreviousPipe.GetComponent<pipe>().amIClosestPipe = false;
             }
@@ -104,6 +111,13 @@ public class bird : MonoBehaviour
         }
 
         //Debug.Log(inputs[3]);
+    }
+
+    void CalculateGameScore(Transform closest){
+        if(gameScoreText != null){
+            gameScore++;
+            gameScoreText.text = gameScore.ToString();
+        }
     }
 
     float distance = 0;
